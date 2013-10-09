@@ -911,7 +911,7 @@ We've spent an enormous amount of time creating and checking these footprints an
 <part name="U1" library="kblom" deviceset="AD5933" device=""/>
 <part name="FRAME1" library="SparkFun-Aesthetics" deviceset="FRAME-LETTER" device=""/>
 <part name="GND1" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="SUPPLY1" library="SparkFun-Aesthetics" deviceset="VCC" device=""/>
+<part name="VCC" library="SparkFun-Aesthetics" deviceset="VCC" device=""/>
 <part name="C1" library="SparkFun-Capacitors" deviceset="0.1UF-100V-10%(0603)" device="" value="0.1uF"/>
 <part name="C2" library="SparkFun-Capacitors" deviceset="0.1UF-100V-10%(0603)" device="" value="10uF"/>
 <part name="GND2" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
@@ -927,7 +927,7 @@ We've spent an enormous amount of time creating and checking these footprints an
 <instance part="FRAME1" gate="G$1" x="45.72" y="2.54"/>
 <instance part="FRAME1" gate="G$2" x="193.04" y="2.54"/>
 <instance part="GND1" gate="1" x="213.36" y="99.06"/>
-<instance part="SUPPLY1" gate="1" x="213.36" y="124.46"/>
+<instance part="VCC" gate="1" x="213.36" y="124.46"/>
 <instance part="C1" gate="G$1" x="203.2" y="109.22"/>
 <instance part="C2" gate="G$1" x="213.36" y="109.22"/>
 <instance part="GND2" gate="1" x="157.48" y="93.98"/>
@@ -939,37 +939,40 @@ We've spent an enormous amount of time creating and checking these footprints an
 <nets>
 <net name="SCL" class="0">
 <segment>
-<wire x1="139.7" y1="124.46" x2="132.08" y2="124.46" width="0.1524" layer="91"/>
-<label x="127" y="124.46" size="1.778" layer="95"/>
-</segment>
-<segment>
 <wire x1="96.52" y1="93.98" x2="99.06" y2="93.98" width="0.1524" layer="91"/>
 <wire x1="99.06" y1="93.98" x2="101.6" y2="93.98" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="93.98" x2="104.14" y2="93.98" width="0.1524" layer="91"/>
 <label x="101.6" y="93.98" size="1.778" layer="95"/>
 <pinref part="JP1" gate="G$1" pin="1"/>
 </segment>
+<segment>
+<pinref part="U1" gate="A" pin="SCL"/>
+<wire x1="137.16" y1="124.46" x2="132.08" y2="124.46" width="0.1524" layer="91"/>
+<label x="127" y="124.46" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="SDA" class="0">
-<segment>
-<wire x1="139.7" y1="121.92" x2="132.08" y2="121.92" width="0.1524" layer="91"/>
-<label x="127" y="121.92" size="1.778" layer="95"/>
-</segment>
 <segment>
 <wire x1="96.52" y1="96.52" x2="104.14" y2="96.52" width="0.1524" layer="91"/>
 <label x="101.6" y="96.52" size="1.778" layer="95"/>
 <pinref part="JP1" gate="G$1" pin="2"/>
 </segment>
+<segment>
+<pinref part="U1" gate="A" pin="SDA"/>
+<wire x1="137.16" y1="121.92" x2="132.08" y2="121.92" width="0.1524" layer="91"/>
+<label x="127" y="121.92" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="MCLK" class="0">
-<segment>
-<wire x1="139.7" y1="119.38" x2="132.08" y2="119.38" width="0.1524" layer="91"/>
-<label x="127" y="119.38" size="1.778" layer="95"/>
-</segment>
 <segment>
 <wire x1="96.52" y1="99.06" x2="104.14" y2="99.06" width="0.1524" layer="91"/>
 <label x="101.6" y="99.06" size="1.778" layer="95"/>
 <pinref part="JP1" gate="G$1" pin="3"/>
+</segment>
+<segment>
+<pinref part="U1" gate="A" pin="MCLK"/>
+<wire x1="137.16" y1="119.38" x2="132.08" y2="119.38" width="0.1524" layer="91"/>
+<label x="127" y="119.38" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="VIN" class="0">
@@ -1038,40 +1041,34 @@ We've spent an enormous amount of time creating and checking these footprints an
 <pinref part="JP1" gate="G$1" pin="4"/>
 </segment>
 </net>
-<net name="DVDD" class="0">
+<net name="VCC" class="0">
+<segment>
+<wire x1="101.6" y1="119.38" x2="109.22" y2="119.38" width="0.1524" layer="91"/>
+<label x="106.68" y="119.38" size="1.778" layer="95"/>
+<pinref part="JP2" gate="G$1" pin="1"/>
+</segment>
 <segment>
 <pinref part="U1" gate="A" pin="DVDD"/>
 <wire x1="137.16" y1="132.08" x2="132.08" y2="132.08" width="0.1524" layer="91"/>
 <label x="127" y="132.08" size="1.778" layer="95"/>
 </segment>
 <segment>
+<pinref part="U1" gate="A" pin="AVDD1"/>
+<wire x1="185.42" y1="119.38" x2="177.8" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="185.42" y1="116.84" x2="185.42" y2="119.38" width="0.1524" layer="91"/>
+<pinref part="U1" gate="A" pin="AVDD2"/>
+<wire x1="177.8" y1="116.84" x2="185.42" y2="116.84" width="0.1524" layer="91"/>
+<label x="180.34" y="119.38" size="1.778" layer="95"/>
+</segment>
+<segment>
 <wire x1="203.2" y1="114.3" x2="203.2" y2="119.38" width="0.1524" layer="91"/>
 <wire x1="203.2" y1="119.38" x2="213.36" y2="119.38" width="0.1524" layer="91"/>
 <wire x1="213.36" y1="119.38" x2="213.36" y2="114.3" width="0.1524" layer="91"/>
-<pinref part="SUPPLY1" gate="1" pin="VCC"/>
+<pinref part="VCC" gate="1" pin="VCC"/>
 <wire x1="213.36" y1="124.46" x2="213.36" y2="119.38" width="0.1524" layer="91"/>
 <junction x="213.36" y="119.38"/>
-<pinref part="U1" gate="A" pin="AVDD2"/>
-<wire x1="177.8" y1="116.84" x2="185.42" y2="116.84" width="0.1524" layer="91"/>
-<wire x1="185.42" y1="116.84" x2="185.42" y2="119.38" width="0.1524" layer="91"/>
-<pinref part="U1" gate="A" pin="AVDD1"/>
-<wire x1="185.42" y1="119.38" x2="177.8" y2="119.38" width="0.1524" layer="91"/>
-<wire x1="185.42" y1="119.38" x2="203.2" y2="119.38" width="0.1524" layer="91"/>
-<junction x="185.42" y="119.38"/>
-<junction x="203.2" y="119.38"/>
-<wire x1="177.8" y1="114.3" x2="185.42" y2="114.3" width="0.1524" layer="91"/>
-<label x="180.34" y="114.3" size="1.778" layer="95"/>
-<wire x1="185.42" y1="116.84" x2="185.42" y2="114.3" width="0.1524" layer="91"/>
-<junction x="185.42" y="116.84"/>
 <pinref part="C1" gate="G$1" pin="1"/>
 <pinref part="C2" gate="G$1" pin="1"/>
-</segment>
-</net>
-<net name="VCC" class="0">
-<segment>
-<wire x1="101.6" y1="119.38" x2="109.22" y2="119.38" width="0.1524" layer="91"/>
-<label x="106.68" y="119.38" size="1.778" layer="95"/>
-<pinref part="JP2" gate="G$1" pin="1"/>
 </segment>
 </net>
 </nets>
