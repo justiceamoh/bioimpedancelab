@@ -915,8 +915,8 @@ We've spent an enormous amount of time creating and checking these footprints an
 <part name="C1" library="SparkFun-Capacitors" deviceset="0.1UF-100V-10%(0603)" device="" value="0.1uF"/>
 <part name="C2" library="SparkFun-Capacitors" deviceset="0.1UF-100V-10%(0603)" device="" value="10uF"/>
 <part name="GND2" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
+<part name="JP1" library="SparkFun-Connectors" deviceset="M04" device="PTH"/>
 <part name="JP2" library="SparkFun-Connectors" deviceset="M04" device="PTH"/>
-<part name="JP3" library="SparkFun-Connectors" deviceset="M04" device="PTH"/>
 </parts>
 <sheets>
 <sheet>
@@ -931,8 +931,8 @@ We've spent an enormous amount of time creating and checking these footprints an
 <instance part="C1" gate="G$1" x="203.2" y="109.22"/>
 <instance part="C2" gate="G$1" x="213.36" y="109.22"/>
 <instance part="GND2" gate="1" x="157.48" y="93.98"/>
-<instance part="JP2" gate="G$1" x="93.98" y="96.52"/>
-<instance part="JP3" gate="G$1" x="99.06" y="121.92"/>
+<instance part="JP1" gate="G$1" x="91.44" y="96.52"/>
+<instance part="JP2" gate="G$1" x="96.52" y="121.92"/>
 </instances>
 <busses>
 </busses>
@@ -947,6 +947,7 @@ We've spent an enormous amount of time creating and checking these footprints an
 <wire x1="99.06" y1="93.98" x2="101.6" y2="93.98" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="93.98" x2="104.14" y2="93.98" width="0.1524" layer="91"/>
 <label x="101.6" y="93.98" size="1.778" layer="95"/>
+<pinref part="JP1" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="SDA" class="0">
@@ -957,6 +958,7 @@ We've spent an enormous amount of time creating and checking these footprints an
 <segment>
 <wire x1="96.52" y1="96.52" x2="104.14" y2="96.52" width="0.1524" layer="91"/>
 <label x="101.6" y="96.52" size="1.778" layer="95"/>
+<pinref part="JP1" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="MCLK" class="0">
@@ -967,6 +969,7 @@ We've spent an enormous amount of time creating and checking these footprints an
 <segment>
 <wire x1="96.52" y1="99.06" x2="104.14" y2="99.06" width="0.1524" layer="91"/>
 <label x="101.6" y="99.06" size="1.778" layer="95"/>
+<pinref part="JP1" gate="G$1" pin="3"/>
 </segment>
 </net>
 <net name="VIN" class="0">
@@ -978,6 +981,7 @@ We've spent an enormous amount of time creating and checking these footprints an
 <segment>
 <wire x1="101.6" y1="121.92" x2="109.22" y2="121.92" width="0.1524" layer="91"/>
 <label x="106.68" y="121.92" size="1.778" layer="95"/>
+<pinref part="JP2" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="RFB" class="0">
@@ -989,6 +993,7 @@ We've spent an enormous amount of time creating and checking these footprints an
 <segment>
 <wire x1="101.6" y1="124.46" x2="109.22" y2="124.46" width="0.1524" layer="91"/>
 <label x="106.68" y="124.46" size="1.778" layer="95"/>
+<pinref part="JP2" gate="G$1" pin="3"/>
 </segment>
 </net>
 <net name="VOUT" class="0">
@@ -1000,6 +1005,7 @@ We've spent an enormous amount of time creating and checking these footprints an
 <segment>
 <wire x1="101.6" y1="127" x2="109.22" y2="127" width="0.1524" layer="91"/>
 <label x="106.68" y="127" size="1.778" layer="95"/>
+<pinref part="JP2" gate="G$1" pin="4"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -1029,6 +1035,7 @@ We've spent an enormous amount of time creating and checking these footprints an
 <segment>
 <wire x1="96.52" y1="101.6" x2="104.14" y2="101.6" width="0.1524" layer="91"/>
 <label x="101.6" y="101.6" size="1.778" layer="95"/>
+<pinref part="JP1" gate="G$1" pin="4"/>
 </segment>
 </net>
 <net name="DVDD" class="0">
@@ -1064,6 +1071,7 @@ We've spent an enormous amount of time creating and checking these footprints an
 <segment>
 <wire x1="101.6" y1="119.38" x2="109.22" y2="119.38" width="0.1524" layer="91"/>
 <label x="106.68" y="119.38" size="1.778" layer="95"/>
+<pinref part="JP2" gate="G$1" pin="1"/>
 </segment>
 </net>
 </nets>
