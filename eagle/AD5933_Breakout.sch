@@ -982,9 +982,9 @@ We've spent an enormous amount of time creating and checking these footprints an
 <label x="180.34" y="124.46" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="101.6" y1="121.92" x2="109.22" y2="121.92" width="0.1524" layer="91"/>
-<label x="106.68" y="121.92" size="1.778" layer="95"/>
-<pinref part="JP2" gate="G$1" pin="2"/>
+<wire x1="101.6" y1="124.46" x2="109.22" y2="124.46" width="0.1524" layer="91"/>
+<label x="106.68" y="124.46" size="1.778" layer="95"/>
+<pinref part="JP2" gate="G$1" pin="3"/>
 </segment>
 </net>
 <net name="RFB" class="0">
@@ -994,9 +994,9 @@ We've spent an enormous amount of time creating and checking these footprints an
 <label x="180.34" y="127" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="101.6" y1="124.46" x2="109.22" y2="124.46" width="0.1524" layer="91"/>
-<label x="106.68" y="124.46" size="1.778" layer="95"/>
-<pinref part="JP2" gate="G$1" pin="3"/>
+<wire x1="101.6" y1="121.92" x2="109.22" y2="121.92" width="0.1524" layer="91"/>
+<label x="106.68" y="121.92" size="1.778" layer="95"/>
+<pinref part="JP2" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="VOUT" class="0">
