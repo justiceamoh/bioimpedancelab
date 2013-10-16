@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.5.0">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="yes"/>
@@ -213,51 +213,8 @@ We've spent an enormous amount of time creating and checking these footprints an
 &lt;br&gt;&lt;br&gt;
 &lt;b&gt;Licensing:&lt;/b&gt; CC v3.0 Share-Alike You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
 <packages>
-<package name="CREATIVE_COMMONS">
-<text x="-20.32" y="5.08" size="1.778" layer="51">Released under the Creative Commons Attribution Share-Alike 3.0 License</text>
-<text x="0" y="2.54" size="1.778" layer="51">http://creativecommons.org/licenses/by-sa/3.0</text>
-<text x="11.43" y="0" size="1.778" layer="51">Designed by:</text>
-</package>
 </packages>
 <symbols>
-<symbol name="LETTER_L">
-<wire x1="0" y1="185.42" x2="248.92" y2="185.42" width="0.4064" layer="94"/>
-<wire x1="248.92" y1="185.42" x2="248.92" y2="0" width="0.4064" layer="94"/>
-<wire x1="0" y1="185.42" x2="0" y2="0" width="0.4064" layer="94"/>
-<wire x1="0" y1="0" x2="248.92" y2="0" width="0.4064" layer="94"/>
-</symbol>
-<symbol name="DOCFIELD">
-<wire x1="0" y1="0" x2="71.12" y2="0" width="0.254" layer="94"/>
-<wire x1="101.6" y1="15.24" x2="87.63" y2="15.24" width="0.254" layer="94"/>
-<wire x1="0" y1="0" x2="0" y2="5.08" width="0.254" layer="94"/>
-<wire x1="0" y1="5.08" x2="71.12" y2="5.08" width="0.254" layer="94"/>
-<wire x1="0" y1="5.08" x2="0" y2="15.24" width="0.254" layer="94"/>
-<wire x1="101.6" y1="15.24" x2="101.6" y2="5.08" width="0.254" layer="94"/>
-<wire x1="71.12" y1="5.08" x2="71.12" y2="0" width="0.254" layer="94"/>
-<wire x1="71.12" y1="5.08" x2="87.63" y2="5.08" width="0.254" layer="94"/>
-<wire x1="71.12" y1="0" x2="101.6" y2="0" width="0.254" layer="94"/>
-<wire x1="87.63" y1="15.24" x2="87.63" y2="5.08" width="0.254" layer="94"/>
-<wire x1="87.63" y1="15.24" x2="0" y2="15.24" width="0.254" layer="94"/>
-<wire x1="87.63" y1="5.08" x2="101.6" y2="5.08" width="0.254" layer="94"/>
-<wire x1="101.6" y1="5.08" x2="101.6" y2="0" width="0.254" layer="94"/>
-<wire x1="0" y1="15.24" x2="0" y2="22.86" width="0.254" layer="94"/>
-<wire x1="101.6" y1="35.56" x2="0" y2="35.56" width="0.254" layer="94"/>
-<wire x1="101.6" y1="35.56" x2="101.6" y2="22.86" width="0.254" layer="94"/>
-<wire x1="0" y1="22.86" x2="101.6" y2="22.86" width="0.254" layer="94"/>
-<wire x1="0" y1="22.86" x2="0" y2="35.56" width="0.254" layer="94"/>
-<wire x1="101.6" y1="22.86" x2="101.6" y2="15.24" width="0.254" layer="94"/>
-<text x="1.27" y="1.27" size="2.54" layer="94" font="vector">Date:</text>
-<text x="12.7" y="1.27" size="2.54" layer="94" font="vector">&gt;LAST_DATE_TIME</text>
-<text x="72.39" y="1.27" size="2.54" layer="94" font="vector">Sheet:</text>
-<text x="86.36" y="1.27" size="2.54" layer="94" font="vector">&gt;SHEET</text>
-<text x="88.9" y="11.43" size="2.54" layer="94" font="vector">REV:</text>
-<text x="1.524" y="17.78" size="2.54" layer="94" font="vector">TITLE:</text>
-<text x="15.494" y="17.78" size="2.7432" layer="94" font="vector">&gt;DRAWING_NAME</text>
-<text x="2.54" y="31.75" size="1.9304" layer="94">Released under the Creative Commons</text>
-<text x="2.54" y="27.94" size="1.9304" layer="94">Attribution Share-Alike 3.0 License</text>
-<text x="2.54" y="24.13" size="1.9304" layer="94">http://creativecommons.org/licenses/by-sa/3.0</text>
-<text x="1.27" y="11.43" size="2.54" layer="94">Design by:</text>
-</symbol>
 <symbol name="DGND">
 <wire x1="-1.905" y1="0" x2="1.905" y2="0" width="0.254" layer="94"/>
 <text x="-2.54" y="-2.54" size="1.778" layer="96">&gt;VALUE</text>
@@ -271,21 +228,6 @@ We've spent an enormous amount of time creating and checking these footprints an
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="FRAME-LETTER" prefix="FRAME">
-<description>&lt;b&gt;Schematic Frame&lt;/b&gt;&lt;p&gt;
-Standard 8.5x11 US Letter frame</description>
-<gates>
-<gate name="G$1" symbol="LETTER_L" x="0" y="0"/>
-<gate name="G$2" symbol="DOCFIELD" x="147.32" y="0" addlevel="must"/>
-</gates>
-<devices>
-<device name="" package="CREATIVE_COMMONS">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="GND" prefix="GND">
 <description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
 <gates>
@@ -909,7 +851,6 @@ We've spent an enormous amount of time creating and checking these footprints an
 </classes>
 <parts>
 <part name="U1" library="kblom" deviceset="AD5933" device=""/>
-<part name="FRAME1" library="SparkFun-Aesthetics" deviceset="FRAME-LETTER" device=""/>
 <part name="GND1" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="VCC" library="SparkFun-Aesthetics" deviceset="VCC" device=""/>
 <part name="C1" library="SparkFun-Capacitors" deviceset="0.1UF-100V-10%(0603)" device="" value="0.1uF"/>
@@ -924,8 +865,6 @@ We've spent an enormous amount of time creating and checking these footprints an
 </plain>
 <instances>
 <instance part="U1" gate="A" x="157.48" y="124.46"/>
-<instance part="FRAME1" gate="G$1" x="45.72" y="2.54"/>
-<instance part="FRAME1" gate="G$2" x="193.04" y="2.54"/>
 <instance part="GND1" gate="1" x="213.36" y="99.06"/>
 <instance part="VCC" gate="1" x="213.36" y="124.46"/>
 <instance part="C1" gate="G$1" x="203.2" y="109.22"/>
