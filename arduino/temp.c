@@ -40,10 +40,12 @@ int flag;
 boolean tempFlag;
 flag = digitalRead(button);
 
-if(flag)
+if(flag){
 	//runSweep();
+	delay(3000);
 	tempFlag = measureTemperature();
 	Serial.println(tempFlag);
+	}
 }
 
 
