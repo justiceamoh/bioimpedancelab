@@ -1,5 +1,5 @@
 #include "Wire.h"
-#define button 2;
+#define button 2
 
 #define START_FREQ_R1 0x82
 #define START_FREQ_R2 0x83
@@ -117,15 +117,15 @@ void runSweep() {
 
 
 
-unsigned int readData(unsigned int addr){
+int readData(int addr){
 	Wire.requestFrom(addr, 1);
-	unsigned int data = Wire.read();
+	int data = Wire.read();
 	Wire.endTransmission();
 	return data;	
 }
 
 
-void writeData(unsigned int addr, unsigned int data,  unsigned int flag) {
+void writeData(int addr, int data,  int flag) {
 
  Wire.beginTransmission(addr);
  Wire.write(data); 
@@ -164,7 +164,7 @@ boolean measureTemperature() {
 
     // Power Down '10100000'
     writeData(CTRL_REG,0xa0,1);
-    setControlRegister(POWER_DOWN);
+
     
     return true;
 
