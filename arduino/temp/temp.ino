@@ -18,6 +18,7 @@
 #define CTRL_REG 0x80
 #define STATUS_REG 0x8F
 
+boolean tempFlag;
 
 void setup() {
 	Wire.begin();
@@ -29,7 +30,11 @@ void setup() {
 
 void loop(){
 
-onButtonPressed();
+  delay(3000);
+  tempFlag = measureTemperature();
+  Serial.println(tempFlag);
+  
+//onButtonPressed();
 
 }
 
