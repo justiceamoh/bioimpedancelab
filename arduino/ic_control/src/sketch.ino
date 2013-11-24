@@ -21,7 +21,7 @@
 #define RE_DATA_R2 0x95
 
 #define IMG_DATA_R1 0x96
-#define IMG_DATA_R1 0x97
+#define IMG_DATA_R2 0x97
 
 #define TEMP_R1 0x92
 #define TEMP_R2 0x93
@@ -42,9 +42,9 @@ void setup() {
 
 void loop(){
 
-  delay(2000);
+  delay(5000);
   measureTemperature();
-  
+  runSweep();
 }
 
 
@@ -100,7 +100,7 @@ void runSweep() {
 		// for negative re value
 		if(re > 0x7FFF){
 			re &= 0x7FFF;
-			re -= 0x10000;
+		 	re -= 0x10000;
 		}
 
 		img  = readData(IMG_DATA_R1) << 8;
@@ -121,8 +121,8 @@ void runSweep() {
 
 		Serial.print("Imag:");
 		Serial.println(img);
-
-
+		Serial.println(" ");
+		
 		//Increment frequency
 		if((readData(STATUS_REG) & 7) < 4 )
 			writeData(CTRL_REG,0x30);
