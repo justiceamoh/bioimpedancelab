@@ -51,8 +51,8 @@ void loop(){
 
 void programReg(){
 
-	// Set Range 2, PGA gain 1
-	writeData(CTRL_REG,0x07);
+	// Set Range 1, PGA gain 1
+	writeData(CTRL_REG,0x01);
 
 	// Set settling cycles
 	writeData(NUM_SCYCLES_R1, 0x07);
