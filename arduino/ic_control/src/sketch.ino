@@ -33,10 +33,12 @@ void setup() {
 
 void loop(){
 
-  delay(2000);
-  measureTemperature();
-
+  delay(1000);
+  tempFlag = measureTemperature();
+  Serial.println(tempFlag);
   
+//onButtonPressed();
+
 }
 
 
@@ -114,6 +116,7 @@ void runSweep() {
 			Serial.println(img[i-1]);
 			Serial.print("\n");	
 		}
+
 
 }
 
