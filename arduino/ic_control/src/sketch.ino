@@ -1,5 +1,7 @@
 #include "Wire.h"
 #define button 2
+#define SLAVE_ADDR 0x0D
+#define ADDR_PTR 0xB0
 
 #define START_FREQ_R1 0x82
 #define START_FREQ_R2 0x83
@@ -19,6 +21,8 @@
 #define STATUS_REG 0x8F
 
 
+boolean tempFlag;
+
 void setup() {
 	Wire.begin();
 	Serial.begin(9600);
@@ -29,8 +33,10 @@ void setup() {
 
 void loop(){
 
-onButtonPressed();
+  delay(2000);
+  measureTemperature();
 
+  
 }
 
 
@@ -40,45 +46,43 @@ int flag;
 boolean tempFlag;
 flag = digitalRead(button);
 
-if(flag){
+if(flag)
 	//runSweep();
-	delay(3000);
 	tempFlag = measureTemperature();
 	Serial.println(tempFlag);
-	}
 }
 
 
 void programReg(){
 
 	// Set Range 2, PGA gain 1
-	writeData(CTRL_REG,0x07,0);
+	writeData(CTRL_REG,0x07);
 
 	// Set settling cycles
-	writeData(0x8a, 0x07, 0);
-	writeData(0x8b, 0xff, 0);
+	writeData(0x8a, 0x07);
+	writeData(0x8b, 0xff);
 
 
 	// Start frequency of 1kHz
-	writeData(START_FREQ_R1, 0, 0);
-	writeData(START_FREQ_R2, 0x83, 0);
-	writeData(START_FREQ_R3, 0x12, 0);
+	writeData(START_FREQ_R1, 0);
+	writeData(START_FREQ_R2, 0x83);
+	writeData(START_FREQ_R3, 0x12);
 
 	// Increment by 1 kHz
-	writeData(FREG_INCRE_R1, 0, 0); 
-	writeData(FREG_INCRE_R2, 0x83, 0); 
-	writeData(FREG_INCRE_R3, 0x12, 0);
+	writeData(FREG_INCRE_R1, 0); 
+	writeData(FREG_INCRE_R2, 0x83); 
+	writeData(FREG_INCRE_R3, 0x12);
 
 
 	// Points in frequency sweep (100), max 511
-	writeData(NUM_INCRE_R1, 0, 0);
-	writeData(NUM_INCRE_R2, 0x64, 0);
+	writeData(NUM_INCRE_R1, 0);
+	writeData(NUM_INCRE_R2, 0x64);
 
 	// Standby '10110000'
-	writeData(CTRL_REG, 0xb0, 1);
+	writeData(CTRL_REG, 0xb0);
 
 	// Initialize sweep
-	writeData(CTRL_REG, 0x10, 1);
+	writeData(CTRL_REG, 0x10);
 
 }
 
@@ -89,13 +93,13 @@ void runSweep() {
 	int i=0;
 
 	// Start sweep
-	writeData(CTRL_REG, 0x20, 1);	
+	writeData(CTRL_REG, 0x20);	
 
 		while (true) {
 			
 			// Check for availability of data
 			if ((readData(0x96) & 0x04)==4){
-				writeData(CTRL_REG,0xa0,0);
+				writeData(CTRL_REG,0xa0);
 				break;
 			}		
 
@@ -111,37 +115,59 @@ void runSweep() {
 			Serial.print("\n");	
 		}
 
-
 }
 
 
 
+void writeData(int addr, int data) {
 
+ Wire.beginTransmission(SLAVE_ADDR);
+ Wire.write(addr);
+ Wire.write(data);
+ Wire.endTransmission();
+ delay(1);
+
+}
 
 
 int readData(int addr){
-	Wire.requestFrom(addr, 1);
-	int data = Wire.read();
+	int data;
+
+	Wire.beginTransmission(SLAVE_ADDR);
+	Wire.write(ADDR_PTR);
+	Wire.write(addr);
 	Wire.endTransmission();
+
+	delay(1);
+
+	Wire.requestFrom(SLAVE_ADDR,1);
+
+	if (Wire.available() >= 1){
+		data = Wire.read();
+	}
+	else {
+		data = -1;
+	}
+
+	delay(1);
 	return data;	
 }
 
 
-void writeData(int addr, int data,  int flag) {
 
- Wire.beginTransmission(addr);
- Wire.write(data); 
- Wire.endTransmission();
-
-}
 
 
 boolean measureTemperature() {
   
 	// Measure temperature '10010000'
-	writeData(CTRL_REG, 0x90, 1);
+	writeData(CTRL_REG, 0x90);
+	//TODO: necessary to write to second control register?
 
 	delay(10); // wait for 10 ms
+
+	
+
+	//TODO: check for valid temp reading?
 
 	int flag = readData(STATUS_REG)& 7;
 
@@ -159,13 +185,14 @@ boolean measureTemperature() {
     
     temperatureData /= 32;
     
-    Serial.print("Current temperature is ");
-    Serial.print(temperatureData); 
-    Serial.println(" degrees Celsius.");
+    Serial.print("Temperature: ");
+    Serial.print(temperatureData);
+    Serial.write(176);
+    Serial.println("C.");
     
 
     // Power Down '10100000'
-    writeData(CTRL_REG,0xa0,1);
+    writeData(CTRL_REG,0xa0);
 
     
     return true;
