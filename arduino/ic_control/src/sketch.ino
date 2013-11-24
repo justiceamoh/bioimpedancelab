@@ -32,7 +32,6 @@
 
 
 
-
 void setup() {
 	Wire.begin();
 	Serial.begin(9600);
@@ -57,7 +56,7 @@ void programReg(){
 
 	// Set settling cycles
 	writeData(NUM_SCYCLES_R1, 0x07);
-	writeData(NUM_SCYCLES_R2, 0xff);
+	writeData(NUM_SCYCLES_R2, 0xFF);
 
 	// Start frequency of 1kHz
 	writeData(START_FREQ_R1, 0);
@@ -74,7 +73,7 @@ void programReg(){
 	writeData(NUM_INCRE_R2, 0x64);
 
 	// Standby '10110000'
-	writeData(CTRL_REG, 0xb0);
+	writeData(CTRL_REG, 0xB0);
 
 	// Initialize sweep
 	writeData(CTRL_REG, 0x10);
@@ -135,8 +134,6 @@ void runSweep() {
 	writeData(CTRL_REG,0xA0);
 
 
-
-
 }
 
 
@@ -189,7 +186,7 @@ boolean measureTemperature() {
 
 	
 
-	//TODO: check for valid temp reading?
+	//Check status reg for temp measurement available
 	int flag = readData(STATUS_REG)& 7;
 
   if (flag == 1) {
