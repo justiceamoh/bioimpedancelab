@@ -14,6 +14,15 @@
 #define NUM_INCRE_R1 0x88
 #define NUM_INCRE_R2 0x89
 
+#define NUM_SCYCLES_R1 0x8A 
+#define NUM_SCYCLES_R2 0x8B 
+
+#define RE_DATA_R1 0x94
+#define RE_DATA_R2 0x95
+
+#define IMG_DATA_R1 0x96
+#define IMG_DATA_R1 0x97
+
 #define TEMP_R1 0x92
 #define TEMP_R2 0x93
 
@@ -21,7 +30,8 @@
 #define STATUS_REG 0x8F
 
 
-boolean tempFlag;
+
+
 
 void setup() {
 	Wire.begin();
@@ -35,22 +45,9 @@ void loop(){
 
   delay(2000);
   measureTemperature();
-
   
 }
 
-
-
-void onButtonPressed(){
-int flag;
-boolean tempFlag;
-flag = digitalRead(button);
-
-if(flag)
-	//runSweep();
-	tempFlag = measureTemperature();
-	Serial.println(tempFlag);
-}
 
 
 void programReg(){
@@ -59,9 +56,8 @@ void programReg(){
 	writeData(CTRL_REG,0x07);
 
 	// Set settling cycles
-	writeData(0x8a, 0x07);
-	writeData(0x8b, 0xff);
-
+	writeData(NUM_SCYCLES_R1, 0x07);
+	writeData(NUM_SCYCLES_R2, 0xff);
 
 	// Start frequency of 1kHz
 	writeData(START_FREQ_R1, 0);
@@ -72,7 +68,6 @@ void programReg(){
 	writeData(FREG_INCRE_R1, 0); 
 	writeData(FREG_INCRE_R2, 0x83); 
 	writeData(FREG_INCRE_R3, 0x12);
-
 
 	// Points in frequency sweep (100), max 511
 	writeData(NUM_INCRE_R1, 0);
@@ -88,32 +83,59 @@ void programReg(){
 
 
 void runSweep() {
-	int re[100];
-	int img[100];
+	int re;
+	int img;
+	double mag;
 	int i=0;
 
 	// Start sweep
 	writeData(CTRL_REG, 0x20);	
 
-		while (true) {
-			
-			// Check for availability of data
-			if ((readData(0x96) & 0x04)==4){
-				writeData(CTRL_REG,0xa0);
-				break;
-			}		
 
-			// Real Data
-			re[i]=readData(0x94) + readData(0x95);
-			img[i++]=readData(0x96) + readData(0x97);
+	while((readData(STATUS_REG) & 7) < 4 ) {  // Check that status reg != 4, sweep not complete
+		delay(100); // delay between measurements
 
-			Serial.print("Real:");
-			Serial.println(re[i-1]);
+		re  = readData(RE_DATA_R1) << 8;
+		re |= readData(RE_DATA_R2);
 
-			Serial.print("Img:");
-			Serial.println(img[i-1]);
-			Serial.print("\n");	
+		// for negative re value
+		if(re > 0x7FFF){
+			re &= 0x7FFF;
+			re -= 0x10000;
 		}
+
+		img  = readData(IMG_DATA_R1) << 8;
+		img |= readData(IMG_DATA_R2);
+
+		// for negative img value
+		if(img > 0x7FFF){
+			img &= 0x7FFF;
+			img -= 0x10000;
+		}
+
+
+		mag = sqrt(pow(double(re),2)+pow(double(img),2));
+		//gain, impedance, phase
+
+		Serial.print("Real:");
+		Serial.println(re);
+
+		Serial.print("Imag:");
+		Serial.println(img);
+
+
+		//Increment frequency
+		if((readData(STATUS_REG) & 7) < 4 )
+			writeData(CTRL_REG,0x30);
+
+	}
+
+
+	//Power down
+	writeData(CTRL_REG,0xA0);
+
+
+
 
 }
 
@@ -168,7 +190,6 @@ boolean measureTemperature() {
 	
 
 	//TODO: check for valid temp reading?
-
 	int flag = readData(STATUS_REG)& 7;
 
   if (flag == 1) {
@@ -192,7 +213,7 @@ boolean measureTemperature() {
     
 
     // Power Down '10100000'
-    writeData(CTRL_REG,0xa0);
+    writeData(CTRL_REG,0xA0);
 
     
     return true;
