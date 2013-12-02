@@ -31,7 +31,7 @@
 
 
 const float MCLK = 16.776*pow(10,6); // AD5933 Internal Clock Speed 16.776 MHz
-const float start_freq = 30*pow(10,3); // Set start freq, < 100Khz
+const float start_freq = 25*pow(10,3); // Set start freq, < 100Khz
 const float incre_freq = 1*pow(10,3); // Set freq increment
 const int incre_num = 10; // Set number of increments; < 511
 
@@ -90,6 +90,8 @@ void runSweep() {
 	double freq;
 	double mag;
 	double phase;
+	double gain;
+	double impedance;
 	int i=0;
 
 	// Start sweep
@@ -121,12 +123,16 @@ void runSweep() {
 		mag = sqrt(pow(double(re),2)+pow(double(img),2));
 		phase = atan(double(img)/double(re));
 
-   		// gain = 2.3 * pow(10, -10);    
-    	// impedance = 1/(gain*magnitude);
+   		gain = 2.5223 * pow(10, -10);    
+    	impedance = 1/(gain*mag);
 
 		Serial.print("Freq:");
 		Serial.print(freq/1000);
 		Serial.println("kHz");
+
+		Serial.print("Impedance:");
+		Serial.print(impedance/1000);
+		Serial.println("kOhm");
 
 		Serial.print("Mag:");
 		Serial.println(mag);
