@@ -56,10 +56,10 @@ void setup() {
 
 void loop(){
 
-  delay(1000);
-  measureTemperature();
+  delay(5000);
+  // measureTemperature();
 
-  // runSweep();
+  runSweep();
   // while(1) {}; //Sit here and wait
 }
 
@@ -203,7 +203,6 @@ int readData(int addr){
 	delay(1);
 	return data;	
 }
-
 
 
 
