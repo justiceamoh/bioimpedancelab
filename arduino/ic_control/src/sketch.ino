@@ -45,9 +45,11 @@ void setup() {
 
 void loop(){
 
-  delay(5000);
-  // measureTemperature();
-  runSweep();
+  delay(1000);
+  measureTemperature();
+
+  // runSweep();
+  // while(1) {}; //Sit here and wait
 }
 
 
@@ -98,7 +100,7 @@ void runSweep() {
 	writeData(CTRL_REG, 0x20);	
 
 
-	while((readData(STATUS_REG) & 7) < 4 ) {  // Check that status reg != 4, sweep not complete
+	while((readData(STATUS_REG) & 0x07) < 4 ) {  // Check that status reg != 4, sweep not complete
 		delay(100); // delay between measurements
 
 		re  = readData(RE_DATA_R1) << 8;
@@ -123,28 +125,27 @@ void runSweep() {
 		mag = sqrt(pow(double(re),2)+pow(double(img),2));
 		phase = atan(double(img)/double(re));
 
-   		gain = 2.5223 * pow(10, -10);    
+   		gain = 2.56477 * pow(10, -10);    
     	impedance = 1/(gain*mag);
 
 		Serial.print("Freq: ");
 		Serial.print(freq/1000);
-		// Serial.println("kHz");
-		Serial.print(" ");
-
-		Serial.print("Impedance: ");
+		Serial.print("kHz");
+		
+		Serial.print(" Imped: ");
 		Serial.print(impedance/1000);
-		// Serial.println("kOhm");
+		Serial.print("kOhm");
+
+
+		Serial.print(" Magn: ");
+		Serial.print(mag);
 		Serial.print(" ");
 
-		Serial.print("Mag: ");
-		Serial.println(mag);
-		Serial.print(" ");
+		Serial.print(" Phas: ");
+		Serial.print(phase);
+		Serial.println(" ");
 
-		Serial.print("Phase: ");
-		Serial.println(phase);
-		// Serial.println(" ");
-		// Serial.println(" ");
-		Serial.print(" ");
+
 		
 		//Increment frequency
 		if((readData(STATUS_REG) & 7) < 4 )
@@ -207,9 +208,10 @@ boolean measureTemperature() {
 	
 
 	//Check status reg for temp measurement available
-	int flag = readData(STATUS_REG)& 7;
+	int flag = readData(STATUS_REG)& 1;
 
   if (flag == 1) {
+
 
     // Temperature is available
     int temperatureData = readData(TEMP_R1) << 8;
