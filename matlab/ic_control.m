@@ -16,13 +16,13 @@ function varargout = ic_control(varargin)
 %      stop.  All inputs are passed to ic_control_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
-%      instance to run (singleton)".
+%      instance to save (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
 % Edit the above text to modify the response to help ic_control
 
-% Last Modified by GUIDE v2.5 11-Dec-2013 14:52:13
+% Last Modified by GUIDE v2.5 11-Dec-2013 16:31:42
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -46,16 +46,25 @@ end
 
 % --- Executes just before ic_control is made visible.
 function ic_control_OpeningFcn(hObject, eventdata, handles, varargin)
-% This function has no output args, see OutputFcn.
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to ic_control (see VARARGIN)
 
-% Choose default command line output for ic_control
+% Create usb serial connection object
+comPort='/dev/tty.usbmodemfd121';
+s = serial(comPort);
+set(s,'Databits',8);
+set(s,'StopBits',1);
+set(s,'BaudRate',9600);
+set(s,'Parity','none');
+handles.arduino = s;
+
+
+% Variables
+handles.Frequency=[];
+handles.Magnitude=[];
+handles.Impedance=[];
+handles.Phase=[];
+
+
 handles.output = hObject;
-
-% Update handles structure
 guidata(hObject, handles);
 
 % UIWAIT makes ic_control wait for user response (see UIRESUME)
@@ -64,31 +73,97 @@ guidata(hObject, handles);
 
 % --- Outputs from this function are returned to the command line.
 function varargout = ic_control_OutputFcn(hObject, eventdata, handles) 
-% varargout  cell array for returning output args (see VARARGOUT);
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Get default command line output from handles structure
 varargout{1} = handles.output;
 
 
 
-function start_frequency_Callback(hObject, eventdata, handles)
-% hObject    handle to start_frequency (see GCBO)
+
+
+
+function connect(hObject)
+handles=guidata(hObject);
+% Open connection to the server. 
+fopen(handles.arduino);
+pause(1);
+% update handles
+guidata(hObject,handles);
+
+
+function disconnect(hObject)
+handles=guidata(hObject);
+fclose(handles.arduino);
+guidata(hObject,handles);
+
+% function update_plot(hObject)
+% handles=guidata(hObject);
+% plot(handles.impedance_axes,
+
+
+function collect_data(hObject)
+i = 0;
+% Empty Arrays
+handles.Frequency=[];
+handles.Magnitude=[];
+handles.Impedance=[];
+handles.Phase=[];
+
+while(1)
+    
+    if(s.BytesAvailable)
+    dummy = fscanf(s,'%s');
+    dummy = strsplit(dummy,{':',',',';'});
+    handles.Frequency(i) = str2double(dummy{2});
+    handles.Impedance(i) = str2double(dummy{5});
+    handles.Magnitude(i) = str2double(dummy{8});
+    handles.Phase(i) = str2double(dummy{10});
+    
+    i=i+1;
+    end
+    
+    
+    if(i>11) % No of Increments + 1
+        break;
+    end
+        
+end
+
+
+
+% --- Executes on button press in run.
+function run_Callback(hObject, eventdata, handles)
+handles=guidata(hObject);
+
+connect(hObject);
+collect_data(hObject);
+disconnect(hObject);
+
+guidata(hObject,handles);
+
+% --- Executes on button press in save.
+function save_Callback(hObject, eventdata, handles)
+% hObject    handle to save (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of start_frequency as text
-%        str2double(get(hObject,'String')) returns contents of start_frequency as a double
 
+% --- Executes on button press in open.
+function open_Callback(hObject, eventdata, handles)
+% hObject    handle to open (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+
+
+
+
+
+
+function start_frequency_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
 function start_frequency_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to start_frequency (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
@@ -98,12 +173,7 @@ end
 
 
 function step_size_Callback(hObject, eventdata, handles)
-% hObject    handle to step_size (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of step_size as text
-%        str2double(get(hObject,'String')) returns contents of step_size as a double
 
 
 % --- Executes during object creation, after setting all properties.
@@ -142,9 +212,9 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton1.
-function pushbutton1_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton1 (see GCBO)
+% --- Executes on button press in program_registers.
+function program_registers_Callback(hObject, eventdata, handles)
+% hObject    handle to program_registers (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
@@ -186,22 +256,4 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in run.
-function run_Callback(hObject, eventdata, handles)
-% hObject    handle to run (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
-
-% --- Executes on button press in pushbutton7.
-function pushbutton7_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton7 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton8.
-function pushbutton8_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton8 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
