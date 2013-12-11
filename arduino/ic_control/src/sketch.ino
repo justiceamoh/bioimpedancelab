@@ -128,22 +128,22 @@ void runSweep() {
    		gain = 2.56477 * pow(10, -10);    
     	impedance = 1/(gain*mag);
 
-		Serial.print("Freq: ");
+		Serial.print("Frequency: ");
 		Serial.print(freq/1000);
-		Serial.print("kHz");
-		
-		Serial.print(" Imped: ");
+		Serial.print(",kHz;");
+
+		Serial.print(" Impedance: ");
 		Serial.print(impedance/1000);
-		Serial.print("kOhm");
+		Serial.print(",kOhm;");
 
 
-		Serial.print(" Magn: ");
+		Serial.print(" Magnitude: ");
 		Serial.print(mag);
-		Serial.print(" ");
+		Serial.print(";");
 
-		Serial.print(" Phas: ");
+		Serial.print(" Phase: ");
 		Serial.print(phase);
-		Serial.println(" ");
+		Serial.println(";");
 
 
 		

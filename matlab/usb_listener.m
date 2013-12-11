@@ -10,16 +10,22 @@ set(s,'Parity','none');
 fopen(s);
 pause(1);
 
-while(1)
-	if s.BytesAvailable
-        dummy = fscanf(s,'%s',1);
-% 		[dummy,Freq] = fscanf(s,'%s%s');
-% 		[dummy,Impd] = fscanf(s,'%s%s');
-% 		[dummy,Magn] = fscanf(s,'%s%s');
-% 		[dummy,Phase] = fscanf(s,'%s%s');
-	end	
 
+Frequency=[];
+Magnitude=[];
+Impedance=[];
+Phase=[];
+i=1;
 
+while(s.BytesAvailable)
+    dummy = fscanf(s,'%s');
+    dummy = strsplit(dummy,{':',',',';'});
+    Frequency(i) = str2double(dummy{2});
+    Impedance(i) = str2double(dummy{5});
+    Magnitude(i) = str2double(dummy{8});
+    Phase(i) = str2double(dummy{10});
+    
+    i=i+1;
 
 end
 
