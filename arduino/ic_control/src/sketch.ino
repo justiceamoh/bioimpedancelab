@@ -35,6 +35,8 @@ const float start_freq = 25*pow(10,3); // Set start freq, < 100Khz
 const float incre_freq = 1*pow(10,3); // Set freq increment
 const int incre_num = 10; // Set number of increments; < 511
 
+byte state = 0; 
+
 void setup() {
 	Wire.begin();
 	Serial.begin(9600);
@@ -44,12 +46,34 @@ void setup() {
 
 
 void loop(){
+ 
+
+  // while(1){
+
+  // 	if(Serial.available()>0) {
+  // 		state = Serial.read();
+  // 		Serial.println(state);
+  // 		switch(state) {
+  // 			case 'A':  //Program Registers State
+  // 				//programReg();
+  // 				break;
+  // 			case 'B':  //Measure Temperature State
+  // 				measureTemperature();
+  // 				break;
+  // 			case 'C':
+  // 				runSweep();
+  // 				break;		
+  // 		}
+  // 		// state=0;
+  // 	}
+
+  // }
 
   delay(5000);
   // measureTemperature();
 
   runSweep();
-  // while(1) {}; //Sit here and wait
+  while(1) {}; //Sit here and wait
 }
 
 
@@ -148,7 +172,7 @@ void runSweep() {
 
 		
 		//Increment frequency
-		if((readData(STATUS_REG) & 7) < 4 )
+		if((readData(STATUS_REG) & 0x07) < 4 )
 			writeData(CTRL_REG,0x30);
 		i++;
 	}
