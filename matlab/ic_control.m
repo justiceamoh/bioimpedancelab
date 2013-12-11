@@ -22,7 +22,7 @@ function varargout = ic_control(varargin)
 
 % Edit the above text to modify the response to help ic_control
 
-% Last Modified by GUIDE v2.5 11-Dec-2013 10:51:49
+% Last Modified by GUIDE v2.5 11-Dec-2013 14:52:13
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -149,8 +149,59 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton2.
-function pushbutton2_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton2 (see GCBO)
+% --- Executes on button press in measure.
+function measure_Callback(hObject, eventdata, handles)
+% hObject    handle to measure (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in calibrate.
+function calibrate_Callback(hObject, eventdata, handles)
+% hObject    handle to calibrate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function calibration_resistance_Callback(hObject, eventdata, handles)
+% hObject    handle to calibration_resistance (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of calibration_resistance as text
+%        str2double(get(hObject,'String')) returns contents of calibration_resistance as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function calibration_resistance_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to calibration_resistance (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in run.
+function run_Callback(hObject, eventdata, handles)
+% hObject    handle to run (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton7.
+function pushbutton7_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton8.
+function pushbutton8_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton8 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
