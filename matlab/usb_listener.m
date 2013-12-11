@@ -1,6 +1,6 @@
 % Serial Parameters
 
-comPort='/dev/tty.usbmodemfa131';
+comPort='/dev/tty.usbmodemfd121';
 s = serial(comPort);
 set(s,'Databits',8);
 set(s,'StopBits',1);
@@ -17,7 +17,9 @@ Impedance=[];
 Phase=[];
 i=1;
 
-while(s.BytesAvailable)
+while(1)
+    
+    if(s.BytesAvailable)
     dummy = fscanf(s,'%s');
     dummy = strsplit(dummy,{':',',',';'});
     Frequency(i) = str2double(dummy{2});
@@ -26,7 +28,13 @@ while(s.BytesAvailable)
     Phase(i) = str2double(dummy{10});
     
     i=i+1;
-
+    end
+    
+    
+    if(i>11)
+        break;
+    end
+        
 end
 
 fclose(s);
