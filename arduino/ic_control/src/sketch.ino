@@ -31,9 +31,9 @@
 
 
 const float MCLK = 16.776*pow(10,6); // AD5933 Internal Clock Speed 16.776 MHz
-const float start_freq = 25*pow(10,3); // Set start freq, < 100Khz
+const float start_freq = 30*pow(10,3); // Set start freq, < 100Khz
 const float incre_freq = 1*pow(10,3); // Set freq increment
-const int incre_num = 10; // Set number of increments; < 511
+const int incre_num = 0; // Set number of increments; < 511
 
 char state; 
 
@@ -104,8 +104,8 @@ void programReg(){
 
 
 void runSweep() {
-	int re;
-	int img;
+	short re;
+	short img;
 	double freq;
 	double mag;
 	double phase;
@@ -127,49 +127,49 @@ void runSweep() {
 	while((readData(STATUS_REG) & 0x07) < 4 ) {  // Check that status reg != 4, sweep not complete
 		delay(100); // delay between measurements
 
-		re  = readData(RE_DATA_R1) << 8;
-		re |= readData(RE_DATA_R2);
+		byte R1 = readData(RE_DATA_R1);
+		byte R2 = readData(RE_DATA_R2);
+		re = (R1 << 8) | R2;
 
-		// for negative re value
-		if(re > 0x7FFF){
-			re &= 0x7FFF;
-		 	re -= 0x10000;
-		}
 
-		img  = readData(IMG_DATA_R1) << 8;
-		img |= readData(IMG_DATA_R2);
+		R1  = readData(IMG_DATA_R1);
+		R2  = readData(IMG_DATA_R2);
+		img = (R1 << 8) | R2;
 
-		// for negative img value
-		if(img > 0x7FFF){
-			img &= 0x7FFF;
-			img -= 0x10000;
-		}
+		Serial.print(" Real: ");
+		Serial.print(re);
+		Serial.print("; ");
+
+		Serial.print(" Imag: ");
+		Serial.print(img);
+		Serial.print(";");
 
 		freq = start_freq + i*incre_freq;
 		mag = sqrt(pow(double(re),2)+pow(double(img),2));
+
 		phase = atan(double(img)/double(re));
 
-   		gain = 2.56477 * pow(10, -10);    
+   		gain = 2.56353 * pow(10, -10);    
     	impedance = 1/(gain*mag);
 
-		Serial.print("Frequency: ");
-		Serial.print(freq/1000);
-		Serial.print(",kHz;");
+		// Serial.print("Frequency: ");
+		// Serial.print(freq/1000);
+		// Serial.print(",kHz;");
 
-		Serial.print(" Impedance: ");
-		Serial.print(impedance/1000);
-		Serial.print(",kOhm;");
+		// Serial.print(" Impedance: ");
+		// Serial.print(impedance/1000);
+		// Serial.print(",kOhm;");
 
 
 		Serial.print(" Magnitude: ");
 		Serial.print(mag);
 		Serial.print(";");
 
-		Serial.print(" Phase: ");
-		Serial.print(phase);
-		Serial.println(";");
+		// Serial.print(" Phase: ");
+		// Serial.print(phase);
+		// Serial.println(";");
 
-
+		break;
 		
 		//Increment frequency
 		if((readData(STATUS_REG) & 0x07) < 4 ){
