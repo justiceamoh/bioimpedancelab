@@ -1,5 +1,7 @@
-#include "Wire.h"
-#define button 2
+#include "HardWire.h"
+
+HardWire TestPort(1,I2C_FAST_MODE);
+
 #define SLAVE_ADDR 0x0D
 #define ADDR_PTR 0xB0
 
@@ -38,9 +40,6 @@ const int incre_num = 0; // Set number of increments; < 511
 char state; 
 
 void setup() {
-	Wire.begin();
-	Serial.begin(9600);
-	pinMode(button, INPUT); 
 	programReg();
 }
 
@@ -49,8 +48,8 @@ void loop(){
  
 
 
-  	if(Serial.available()>0) {
-  		state = Serial.read();
+  	if(SerialUSB.available()>0) {
+  		state = SerialUSB.read();
   		switch(state) {
   			case 'A':  //Program Registers State
   				//programReg();
@@ -67,11 +66,7 @@ void loop(){
   	}
 
 
-  // delay(5000);
-  // // measureTemperature();
 
-  // runSweep();
-  // while(1) {}; //Sit here and wait
 }
 
 
@@ -127,66 +122,56 @@ void runSweep() {
 	while((readData(STATUS_REG) & 0x07) < 4 ) {  // Check that status reg != 4, sweep not complete
 		delay(100); // delay between measurements
 
-		int flag = readData(STATUS_REG)& 2;
-
-		Serial.println("");
-		Serial.println(readData(STATUS_REG));
-
-
-		if (flag==2) {
-
-			byte R1 = readData(RE_DATA_R1);
-			byte R2 = readData(RE_DATA_R2);
-			re = (R1 << 8) | R2;
+		byte R1 = readData(RE_DATA_R1);
+		byte R2 = readData(RE_DATA_R2);
+		re = (R1 << 8) | R2;
 
 
-			R1  = readData(IMG_DATA_R1);
-			R2  = readData(IMG_DATA_R2);
-			img = (R1 << 8) | R2;
+		R1  = readData(IMG_DATA_R1);
+		R2  = readData(IMG_DATA_R2);
+		img = (R1 << 8) | R2;
 
-			// Serial.print(" Real: ");
-			// Serial.println(re);
-			// Serial.println(re,HEX);
-			// Serial.println("; ");
+		// SerialUSB.print(" Real: ");
+		// SerialUSB.println(re);
+		// SerialUSB.println(re,HEX);
+		// SerialUSB.println("; ");
 
-			// Serial.print(" Imag: ");
-			// Serial.println(img);
-			// Serial.println(img,HEX);
-			// Serial.println(";");
+		// SerialUSB.print(" Imag: ");
+		// SerialUSB.println(img);
+		// SerialUSB.println(img,HEX);
+		// SerialUSB.println(";");
 
-			freq = start_freq + i*incre_freq;
-			mag = sqrt(pow(double(re),2)+pow(double(img),2));
+		freq = start_freq + i*incre_freq;
+		mag = sqrt(pow(double(re),2)+pow(double(img),2));
 
-			phase = atan(double(img)/double(re));
-			phase = (180.0/3.1415926)*phase;  //convert phase angle to degrees
+		phase = atan(double(img)/double(re));
+		phase = (180.0/3.1415926)*phase;  //convert phase angle to degrees
 
-	   		gain = (1.0/2179.0)/20252.39;
-	    	impedance = 1/(gain*mag);
+   		// gain = 2.56353 * pow(10, -10);
+    	impedance = 1/(gain*mag);
 
-			Serial.print("Frequency: ");
-			Serial.print(freq/1000);
-			Serial.print(",kHz;");
+		SerialUSB.print("Frequency: ");
+		SerialUSB.print(freq/1000);
+		SerialUSB.print(",kHz;");
 
-			Serial.print(" Impedance: ");
-			Serial.print(impedance/1000);
-			Serial.print(",kOhm;");
+		SerialUSB.print(" Impedance: ");
+		SerialUSB.print(impedance/1000);
+		SerialUSB.print(",kOhm;");
 
-			Serial.print(" Magnitude: ");
-			Serial.print(mag);
-			Serial.println(";");
+		SerialUSB.print(" Magnitude: ");
+		SerialUSB.print(mag);
+		SerialUSB.println(";");
 
-			// Serial.print(" Phase: ");
-			// Serial.print(phase);
-			// Serial.println(";");
+		// SerialUSB.print(" Phase: ");
+		// SerialUSB.print(phase);
+		// SerialUSB.println(";");
 
-			break;  //TODO: for single run, remove after debugging
-			
-			//Increment frequency
-			if((readData(STATUS_REG) & 0x07) < 4 ){
-				writeData(CTRL_REG,0x30);
-				i++;
-			}
-
+		break;  //TODO: for single run, remove after debugging
+		
+		//Increment frequency
+		if((readData(STATUS_REG) & 0x07) < 4 ){
+			writeData(CTRL_REG,0x30);
+			i++;
 		}
 	}
 
@@ -196,39 +181,70 @@ void runSweep() {
 }
 
 
+void writeData(int reg, int data) {
 
-void writeData(int addr, int data) {
+	TestPort.beginTransmission(SLAVE_ADDR);
+	TestPort.send(reg);
+	TestPort.send(data);
+	TestPort.endTransmission();
+	delay(1);
 
- Wire.beginTransmission(SLAVE_ADDR);
- Wire.write(addr);
- Wire.write(data);
- Wire.endTransmission();
- delay(1);
 }
 
+// void writeData(int addr, int data) {
 
-int readData(int addr){
+//  Wire.beginTransmission(SLAVE_ADDR);
+//  Wire.send(addr);
+//  Wire.send(data);
+//  Wire.endTransmission();
+//  delay(1);
+// }
+
+
+int readData(int reg) {
 	int data;
-
-	Wire.beginTransmission(SLAVE_ADDR);
-	Wire.write(ADDR_PTR);
-	Wire.write(addr);
-	Wire.endTransmission();
+	TestPort.beginTransmission(SLAVE_ADDR);
+	TestPort.send(ADDR_PTR);
+	TestPort.send(reg);
+	TestPort.endTransmission();
 
 	delay(1);
 
-	Wire.requestFrom(SLAVE_ADDR,1);
+	TestPort.requestFrom(SLAVE_ADDR,1);
 
-	if (Wire.available() >= 1){
-		data = Wire.read();
+	if (TestPort.available()>=1){
+		data = TestPort.receive();
 	}
 	else {
 		data = -1;
 	}
 
 	delay(1);
-	return data;	
+	// return data;
 }
+
+// int readData(int addr){
+// 	int data;
+
+// 	Wire.beginTransmission(SLAVE_ADDR);
+// 	Wire.send(ADDR_PTR);
+// 	Wire.send(addr);
+// 	Wire.endTransmission();
+
+// 	delay(1);
+
+// 	Wire.requestFrom(SLAVE_ADDR,1);
+
+// 	if (Wire.available() >= 1){
+// 		data = Wire.receive();
+// 	}
+// 	else {
+// 		data = -1;
+// 	}
+
+// 	delay(1);
+// 	return data;	
+// }
 
 
 
@@ -255,17 +271,16 @@ boolean measureTemperature() {
     temperatureData &= 0x3FFF; // remove first two bits
     
     if (temperatureData & 0x2000 == 1) { // negative temperature
-      
       temperatureData -= 0x4000;
     }
     
     double val = double(temperatureData) / 32;
     temperatureData /= 32;
     
-    Serial.print("Temperature: ");
-    Serial.print(val);
-    //Serial.write(176);  //degree sign
-    Serial.println("C.");
+    SerialUSB.print("Temperature: ");
+    SerialUSB.print(val);
+    //SerialUSB.write(176);  //degree sign
+    SerialUSB.println("C.");
     
 
     // Power Down '10100000'
@@ -303,3 +318,5 @@ byte getFrequency(float freq, int n){
 
 	return code;  
 }
+
+

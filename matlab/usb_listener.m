@@ -46,7 +46,7 @@ while(1)
     end
     
     
-    if(i>11)
+    if(i>11)  % Check if all frequency points have been received
         break;
     end
         

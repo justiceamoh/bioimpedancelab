@@ -71,7 +71,7 @@ void loop(){
   				break;
   			case 'C':
   				runSweep();
-  				delay(5000);
+  				delay(1000);
   				break;		
   		}
   		// state=0;
@@ -138,54 +138,66 @@ void runSweep() {
 	while((readData(STATUS_REG) & 0x07) < 4 ) {  // Check that status reg != 4, sweep not complete
 		delay(100); // delay between measurements
 
-		byte R1 = readData(RE_DATA_R1);
-		byte R2 = readData(RE_DATA_R2);
-		re = (R1 << 8) | R2;
+		int flag = readData(STATUS_REG)& 2;
+
+		Serial.println("");
+		Serial.println(readData(STATUS_REG));
 
 
-		R1  = readData(IMG_DATA_R1);
-		R2  = readData(IMG_DATA_R2);
-		img = (R1 << 8) | R2;
+		if (flag==2) {
 
-		Serial.print(" Real: ");
-		Serial.print(re);
-		Serial.print("; ");
-
-		Serial.print(" Imag: ");
-		Serial.print(img);
-		Serial.print(";");
-
-		freq = start_freq + i*incre_freq;
-		mag = sqrt(pow(double(re),2)+pow(double(img),2));
-
-		phase = atan(double(img)/double(re));
-
-   		gain = 2.56353 * pow(10, -10);    
-    	impedance = 1/(gain*mag);
-
-		// Serial.print("Frequency: ");
-		// Serial.print(freq/1000);
-		// Serial.print(",kHz;");
-
-		// Serial.print(" Impedance: ");
-		// Serial.print(impedance/1000);
-		// Serial.print(",kOhm;");
+			byte R1 = readData(RE_DATA_R1);
+			byte R2 = readData(RE_DATA_R2);
+			re = (R1 << 8) | R2;
 
 
-		Serial.print(" Magnitude: ");
-		Serial.print(mag);
-		Serial.print(";");
+			R1  = readData(IMG_DATA_R1);
+			R2  = readData(IMG_DATA_R2);
+			img = (R1 << 8) | R2;
 
-		// Serial.print(" Phase: ");
-		// Serial.print(phase);
-		// Serial.println(";");
+			// Serial.print(" Real: ");
+			// Serial.println(re);
+			// Serial.println(re,HEX);
+			// Serial.println("; ");
 
-		break;
-		
-		//Increment frequency
-		if((readData(STATUS_REG) & 0x07) < 4 ){
-			writeData(CTRL_REG,0x30);
-			i++;
+			// Serial.print(" Imag: ");
+			// Serial.println(img);
+			// Serial.println(img,HEX);
+			// Serial.println(";");
+
+			freq = start_freq + i*incre_freq;
+			mag = sqrt(pow(double(re),2)+pow(double(img),2));
+
+			phase = atan(double(img)/double(re));
+			phase = (180.0/3.1415926)*phase;  //convert phase angle to degrees
+
+	   		gain = (1.0/2179.0)/20252.39;
+	    	impedance = 1/(gain*mag);
+
+			Serial.print("Frequency: ");
+			Serial.print(freq/1000);
+			Serial.print(",kHz;");
+
+			Serial.print(" Impedance: ");
+			Serial.print(impedance/1000);
+			Serial.print(",kOhm;");
+
+			Serial.print(" Magnitude: ");
+			Serial.print(mag);
+			Serial.println(";");
+
+			// Serial.print(" Phase: ");
+			// Serial.print(phase);
+			// Serial.println(";");
+
+			break;  //TODO: for single run, remove after debugging
+			
+			//Increment frequency
+			if((readData(STATUS_REG) & 0x07) < 4 ){
+				writeData(CTRL_REG,0x30);
+				i++;
+			}
+
 		}
 	}
 
@@ -258,11 +270,12 @@ boolean measureTemperature() {
       temperatureData -= 0x4000;
     }
     
+    double val = double(temperatureData) / 32;
     temperatureData /= 32;
     
     Serial.print("Temperature: ");
-    Serial.print(temperatureData);
-    Serial.write(176);
+    Serial.print(val);
+    //Serial.write(176);  //degree sign
     Serial.println("C.");
     
 

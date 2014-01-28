@@ -16,13 +16,13 @@ function varargout = ic_control(varargin)
 %      stop.  All inputs are passed to ic_control_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
-%      instance to run (singleton)".
+%      instance to save (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
 % Edit the above text to modify the response to help ic_control
 
-% Last Modified by GUIDE v2.5 11-Dec-2013 14:52:13
+% Last Modified by GUIDE v2.5 16-Dec-2013 12:54:33
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -46,14 +46,24 @@ end
 
 % --- Executes just before ic_control is made visible.
 function ic_control_OpeningFcn(hObject, eventdata, handles, varargin)
-% This function has no output args, see OutputFcn.
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to ic_control (see VARARGIN)
 
 % Choose default command line output for ic_control
 handles.output = hObject;
+
+% Serial Variables
+comPort='/dev/tty.usbmodemfd121';
+s = serial(comPort);
+set(s,'Databits',8);
+set(s,'StopBits',1);
+set(s,'BaudRate',9600);
+set(s,'Parity','none');
+handles.ic=s;
+
+% Data Variables
+handles.Frequency=[];
+handles.Magnitude=[];
+handles.Impedance=[];
+handles.Phase=[];
 
 % Update handles structure
 guidata(hObject, handles);
@@ -64,13 +74,109 @@ guidata(hObject, handles);
 
 % --- Outputs from this function are returned to the command line.
 function varargout = ic_control_OutputFcn(hObject, eventdata, handles) 
-% varargout  cell array for returning output args (see VARARGOUT);
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
+
+
+
+
+
+function connect(hObject)
+handles=guidata(hObject);
+% Open connection to the server. 
+fopen(handles.ic);
+pause(2);
+% update handles
+guidata(hObject,handles);
+
+
+function disconnect(hObject)
+handles=guidata(hObject); 
+fclose(handles.ic);
+pause(1);
+guidata(hObject,handles);
+
+
+
+function collect_data(hObject)
+handles=guidata(hObject);
+s=handles.ic;
+i=1;
+
+% Transmit command to start sending
+fprintf(s,'C');
+pause(1);
+while(1)
+    
+    if(s.BytesAvailable)
+    dummy = fscanf(s,'%s');
+    dummy = strsplit(dummy,{':',',',';'});
+    handles.Frequency(i) = str2double(dummy{2});
+    handles.Impedance(i) = str2double(dummy{5});
+    handles.Magnitude(i) = str2double(dummy{8});
+    handles.Phase(i) = str2double(dummy{10});    
+    i=i+1;
+    end
+        
+    if(i>0) % Check if all frequency points have been received
+        break;
+    end
+        
+end
+
+update_plot(hObject);
+
+guidata(hObject,handles);
+
+
+
+
+
+
+function update_plot(hObject)
+handles=guidata(hObject);
+plot(handles.impedance_axes,handles.Frequency, handles.Impedance);
+plot(handles.phase_axes,handles.Frequency, handles.Phase);
+guidata(hObject,handles);
+
+
+
+
+% --- Executes on button press in run.
+function run_Callback(hObject, eventdata, handles)
+handles=guidata(hObject);
+connect(hObject);
+collect_data(hObject);
+disconnect(hObject);
+guidata(hObject,handles);
+
+
+
+
+
+% --- Executes on button press in measure.
+function measure_Callback(hObject, eventdata, handles)
+handles=guidata(hObject);
+s=handles.ic;
+disconnect(hObject);
+connect(hObject);
+pause(1);
+fprintf(s,'B');
+pause(0.5);
+
+if(s.BytesAvailable)
+    dummy = fscanf(s,'%s');
+    dummy = strsplit(dummy,{':','°'});
+    set(handles.temperature,'string',dummy{2});
+end
+
+
+
+disconnect(hObject);
+guidata(hObject,handles);
+
+
 
 
 
@@ -149,11 +255,7 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in measure.
-function measure_Callback(hObject, eventdata, handles)
-% hObject    handle to measure (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 
 
 % --- Executes on button press in calibrate.
@@ -186,22 +288,17 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in run.
-function run_Callback(hObject, eventdata, handles)
-% hObject    handle to run (see GCBO)
+% --- Executes on button press in save.
+function save_Callback(hObject, eventdata, handles)
+% hObject    handle to save (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton7.
-function pushbutton7_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton7 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton8.
-function pushbutton8_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton8 (see GCBO)
+% --- Executes on button press in open.
+function open_Callback(hObject, eventdata, handles)
+% hObject    handle to open (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
