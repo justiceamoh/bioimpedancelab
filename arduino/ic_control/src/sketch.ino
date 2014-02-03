@@ -44,7 +44,7 @@ void loop(){
 
   delay(5000);
   measureTemperature();
-  runSweep();
+  // runSweep();
 }
 
 
