@@ -2,12 +2,12 @@ EAGLE AutoRouter Statistics:
 
 Job           : /home/justice/bioimpedancelab/eagle/analyzer/small_analyzer.brd
 
-Start at      : 12:54:55 (2/17/14)
-End at        : 12:54:55 (2/17/14)
+Start at      : 17:38:13 (2/17/14)
+End at        : 17:38:13 (2/17/14)
 Elapsed time  : 00:00:00
 
 Signals       :    36   RoutingGrid: 50 mil  Layers: 2
-Connections   :    97   predefined:  1 ( 0 Vias )
+Connections   :    97   predefined:  95 ( 54 Vias )
 
 Router memory :   11200
 
@@ -18,8 +18,8 @@ Number of Ripups  :         0         0         0         0         0         0
 max. Level        :         0         1         0         0         0         0
 max. Total        :         0         0         0         0         0         0
 
-Routed            :         6        39        39        39        39        39
-Vias              :         0        26         8         4         4         4
-Resolution        :     7.2 %    41.2 %    41.2 %    41.2 %    41.2 %    41.2 %
+Routed            :         0         0         0         0         0         0
+Vias              :         0         0         0         0         0         0
+Resolution        :    97.9 %    97.9 %    97.9 %    97.9 %    97.9 %    97.9 %
 
-Final             : 41.2% finished
+Final             : 97.9% finished
