@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.5.0">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="yes"/>
@@ -3911,6 +3911,8 @@ SMT- SWCH-08247</description>
 <part name="SUPPLY16" library="supply2" deviceset="GND" device=""/>
 <part name="JP3" library="SparkFun-Connectors" deviceset="M04" device="PTH"/>
 <part name="JP4" library="SparkFun-Connectors" deviceset="ARDUINO_SERIAL_PROGRAM" device="LOCK"/>
+<part name="S2" library="SparkFun-Electromechanical" deviceset="TAC_SWITCH" device="SMD"/>
+<part name="SUPPLY17" library="SparkFun-Aesthetics" deviceset="VCC" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -3984,6 +3986,8 @@ SMT- SWCH-08247</description>
 <instance part="SUPPLY16" gate="GND" x="177.8" y="228.6"/>
 <instance part="JP3" gate="G$1" x="132.08" y="114.3"/>
 <instance part="JP4" gate="G$1" x="99.06" y="137.16"/>
+<instance part="S2" gate="S" x="342.9" y="236.22" rot="R90"/>
+<instance part="SUPPLY17" gate="G$1" x="342.9" y="248.92"/>
 </instances>
 <busses>
 </busses>
@@ -4068,6 +4072,16 @@ SMT- SWCH-08247</description>
 <pinref part="SUPPLY2" gate="G$1" pin="VCC"/>
 <pinref part="C2" gate="G$1" pin="1"/>
 <junction x="177.8" y="238.76"/>
+</segment>
+<segment>
+<pinref part="S2" gate="S" pin="3"/>
+<wire x1="342.9" y1="241.3" x2="342.9" y2="243.84" width="0.1524" layer="91"/>
+<pinref part="S2" gate="S" pin="4"/>
+<wire x1="342.9" y1="243.84" x2="345.44" y2="243.84" width="0.1524" layer="91"/>
+<wire x1="345.44" y1="243.84" x2="345.44" y2="241.3" width="0.1524" layer="91"/>
+<wire x1="342.9" y1="243.84" x2="342.9" y2="248.92" width="0.1524" layer="91"/>
+<junction x="342.9" y="243.84"/>
+<pinref part="SUPPLY17" gate="G$1" pin="VCC"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -4607,6 +4621,16 @@ SMT- SWCH-08247</description>
 <pinref part="JP2" gate="G$1" pin="3"/>
 <wire x1="109.22" y1="160.02" x2="116.84" y2="160.02" width="0.1524" layer="91"/>
 <label x="114.3" y="160.02" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="N$16" class="0">
+<segment>
+<pinref part="S2" gate="S" pin="1"/>
+<pinref part="S2" gate="S" pin="2"/>
+<wire x1="345.44" y1="231.14" x2="342.9" y2="231.14" width="0.1524" layer="91"/>
+<junction x="342.9" y="231.14"/>
+<pinref part="U2" gate="G$1" pin="PC2(ADC2)"/>
+<wire x1="320.04" y1="231.14" x2="342.9" y2="231.14" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
