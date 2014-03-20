@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.5.0">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="yes"/>
@@ -3839,6 +3839,122 @@ SMT- SWCH-08247</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="AWJLEagleLib">
+<description>AWJ Logan Eagle Library v1.001</description>
+<packages>
+<package name="DFN14-4X3DE">
+<wire x1="-1.9" y1="1.4" x2="1.9" y2="1.4" width="0.2032" layer="51"/>
+<wire x1="1.9" y1="1.4" x2="1.9" y2="-1.4" width="0.2032" layer="21"/>
+<wire x1="1.9" y1="-1.4" x2="-1.9" y2="-1.4" width="0.2032" layer="51"/>
+<wire x1="-1.9" y1="-1.4" x2="-1.9" y2="1.4" width="0.2032" layer="21"/>
+<circle x="-1.45" y="-0.9125" radius="0.1754" width="0" layer="51"/>
+<smd name="1" x="-1.5" y="-1.4" dx="0.25" dy="0.7" layer="1" stop="no" cream="no"/>
+<smd name="2" x="-1" y="-1.4" dx="0.25" dy="0.7" layer="1" stop="no" cream="no"/>
+<smd name="3" x="-0.5" y="-1.4" dx="0.25" dy="0.7" layer="1" stop="no" cream="no"/>
+<smd name="4" x="0" y="-0.75" dx="0.25" dy="2" layer="1" stop="no" cream="no"/>
+<smd name="5" x="0.5" y="-1.4" dx="0.25" dy="0.7" layer="1" stop="no" cream="no"/>
+<smd name="6" x="1" y="-1.4" dx="0.25" dy="0.7" layer="1" stop="no" cream="no"/>
+<smd name="7" x="1.5" y="-1.4" dx="0.25" dy="0.7" layer="1" stop="no" cream="no"/>
+<smd name="8" x="1.5" y="1.4" dx="0.25" dy="0.7" layer="1" rot="R180" stop="no" cream="no"/>
+<smd name="9" x="1" y="0.75" dx="0.25" dy="2" layer="1" rot="R180" stop="no" cream="no"/>
+<smd name="10" x="0.5" y="1.4" dx="0.25" dy="0.7" layer="1" rot="R180" stop="no" cream="no"/>
+<smd name="11" x="0" y="1.4" dx="0.25" dy="0.7" layer="1" rot="R180" stop="no" cream="no"/>
+<smd name="12" x="-0.5" y="1.4" dx="0.25" dy="0.7" layer="1" rot="R180" stop="no" cream="no"/>
+<smd name="13" x="-1" y="1.4" dx="0.25" dy="0.7" layer="1" rot="R180" stop="no" cream="no"/>
+<smd name="14" x="-1.5" y="1.4" dx="0.25" dy="0.7" layer="1" rot="R180" stop="no" cream="no"/>
+<smd name="4@1" x="-0.75" y="0" dx="1.75" dy="1.65" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="9@2" x="1" y="0" dx="1.07" dy="1.65" layer="1" roundness="25" stop="no" cream="no"/>
+<text x="-2" y="2" size="1.27" layer="25">&gt;NAME</text>
+<text x="-2" y="-3.25" size="1.27" layer="27">&gt;VALUE</text>
+<rectangle x1="-1.65" y1="-1.775" x2="-1.35" y2="-1.025" layer="29"/>
+<rectangle x1="-1.625" y1="-0.825" x2="0.125" y2="0.825" layer="29"/>
+<rectangle x1="0.45" y1="-0.825" x2="1.55" y2="0.825" layer="29"/>
+<rectangle x1="-1.55" y1="-0.75" x2="0.05" y2="0.75" layer="31"/>
+<rectangle x1="0.525" y1="-0.75" x2="1.475" y2="0.75" layer="31"/>
+<rectangle x1="-1.6" y1="-1.725" x2="-1.4" y2="-1.075" layer="31"/>
+<rectangle x1="-1.1" y1="-1.725" x2="-0.9" y2="-1.075" layer="31"/>
+<rectangle x1="-0.6" y1="-1.725" x2="-0.4" y2="-1.075" layer="31"/>
+<rectangle x1="-0.1" y1="-1.725" x2="0.1" y2="-1.075" layer="31"/>
+<rectangle x1="0.4" y1="-1.725" x2="0.6" y2="-1.075" layer="31"/>
+<rectangle x1="0.9" y1="-1.725" x2="1.1" y2="-1.075" layer="31"/>
+<rectangle x1="1.4" y1="-1.725" x2="1.6" y2="-1.075" layer="31"/>
+<rectangle x1="1.4" y1="1.075" x2="1.6" y2="1.725" layer="31" rot="R180"/>
+<rectangle x1="0.9" y1="1.075" x2="1.1" y2="1.725" layer="31" rot="R180"/>
+<rectangle x1="0.4" y1="1.075" x2="0.6" y2="1.725" layer="31" rot="R180"/>
+<rectangle x1="-0.1" y1="1.075" x2="0.1" y2="1.725" layer="31" rot="R180"/>
+<rectangle x1="-0.6" y1="1.075" x2="-0.4" y2="1.725" layer="31" rot="R180"/>
+<rectangle x1="-1.1" y1="1.075" x2="-0.9" y2="1.725" layer="31" rot="R180"/>
+<rectangle x1="-1.6" y1="1.075" x2="-1.4" y2="1.725" layer="31" rot="R180"/>
+<rectangle x1="-1.15" y1="-1.775" x2="-0.85" y2="-1.025" layer="29"/>
+<rectangle x1="-0.65" y1="-1.775" x2="-0.35" y2="-1.025" layer="29"/>
+<rectangle x1="-0.15" y1="-1.775" x2="0.15" y2="-1.025" layer="29"/>
+<rectangle x1="0.35" y1="-1.775" x2="0.65" y2="-1.025" layer="29"/>
+<rectangle x1="0.85" y1="-1.775" x2="1.15" y2="-1.025" layer="29"/>
+<rectangle x1="1.35" y1="-1.775" x2="1.65" y2="-1.025" layer="29"/>
+<rectangle x1="1.35" y1="1.025" x2="1.65" y2="1.775" layer="29" rot="R180"/>
+<rectangle x1="0.85" y1="1.025" x2="1.15" y2="1.775" layer="29" rot="R180"/>
+<rectangle x1="0.35" y1="1.025" x2="0.65" y2="1.775" layer="29" rot="R180"/>
+<rectangle x1="-0.15" y1="1.025" x2="0.15" y2="1.775" layer="29" rot="R180"/>
+<rectangle x1="-0.65" y1="1.025" x2="-0.35" y2="1.775" layer="29" rot="R180"/>
+<rectangle x1="-1.15" y1="1.025" x2="-0.85" y2="1.775" layer="29" rot="R180"/>
+<rectangle x1="-1.65" y1="1.025" x2="-1.35" y2="1.775" layer="29" rot="R180"/>
+<text x="-2.54" y="-1.27" size="1.778" layer="21">.</text>
+</package>
+</packages>
+<symbols>
+<symbol name="LT3032">
+<wire x1="-7.62" y1="10.16" x2="7.62" y2="10.16" width="0.254" layer="94"/>
+<wire x1="7.62" y1="10.16" x2="7.62" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="7.62" y1="-10.16" x2="-7.62" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="-10.16" x2="-7.62" y2="10.16" width="0.254" layer="94"/>
+<pin name="OP" x="10.16" y="7.62" visible="pin" length="short" direction="pwr" rot="R180"/>
+<pin name="AJP" x="10.16" y="5.08" visible="pin" length="short" rot="R180"/>
+<pin name="BP" x="10.16" y="2.54" visible="pin" length="short" rot="R180"/>
+<pin name="GND" x="-10.16" y="-7.62" visible="pin" length="short" direction="pwr"/>
+<pin name="IN" x="-10.16" y="0" visible="pin" length="short" direction="pwr"/>
+<pin name="ON" x="10.16" y="0" visible="pin" length="short" direction="pwr" rot="R180"/>
+<pin name="AJN" x="10.16" y="-2.54" visible="pin" length="short" rot="R180"/>
+<pin name="!SN" x="-10.16" y="-5.08" visible="pin" length="short"/>
+<pin name="BN" x="10.16" y="-5.08" visible="pin" length="short" rot="R180"/>
+<pin name="!SP" x="-10.16" y="5.08" visible="pin" length="short"/>
+<pin name="IP" x="-10.16" y="7.62" visible="pin" length="short" direction="pwr"/>
+<text x="-7.62" y="10.16" size="1.778" layer="95">&gt;NAME</text>
+<text x="-7.62" y="-12.7" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="GND@1" x="10.16" y="-7.62" visible="pin" length="short" direction="pwr" rot="R180"/>
+<pin name="IN@1" x="-10.16" y="-2.54" visible="pin" length="short" direction="pwr"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="LT3032" prefix="IC" uservalue="yes">
+<description>LT3032 dual postive/negative LDO linear regulator</description>
+<gates>
+<gate name="G$1" symbol="LT3032" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="DFN14-4X3DE">
+<connects>
+<connect gate="G$1" pin="!SN" pad="10"/>
+<connect gate="G$1" pin="!SP" pad="12"/>
+<connect gate="G$1" pin="AJN" pad="8"/>
+<connect gate="G$1" pin="AJP" pad="2"/>
+<connect gate="G$1" pin="BN" pad="11"/>
+<connect gate="G$1" pin="BP" pad="3"/>
+<connect gate="G$1" pin="GND" pad="4"/>
+<connect gate="G$1" pin="GND@1" pad="5"/>
+<connect gate="G$1" pin="IN" pad="6"/>
+<connect gate="G$1" pin="IN@1" pad="9"/>
+<connect gate="G$1" pin="IP" pad="14"/>
+<connect gate="G$1" pin="ON" pad="7"/>
+<connect gate="G$1" pin="OP" pad="1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -3916,12 +4032,14 @@ SMT- SWCH-08247</description>
 <part name="C3" library="SparkFun-Passives" deviceset="CAP" device="0603-CAP" value="10uF"/>
 <part name="C9" library="SparkFun-Passives" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
 <part name="GND2" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
+<part name="IC4" library="AWJLEagleLib" deviceset="LT3032" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
 <text x="147.32" y="226.06" size="1.778" layer="91">ADR423_8MSOP</text>
 <text x="152.4" y="50.8" size="1.778" layer="91">AD8236_8MSOP</text>
+<text x="149.86" y="195.58" size="1.778" layer="91">LT3015</text>
 </plain>
 <instances>
 <instance part="IC1" gate="A" x="53.34" y="71.12"/>
@@ -3994,6 +4112,7 @@ SMT- SWCH-08247</description>
 <instance part="C3" gate="G$1" x="139.7" y="162.56"/>
 <instance part="C9" gate="G$1" x="147.32" y="162.56"/>
 <instance part="GND2" gate="1" x="139.7" y="154.94"/>
+<instance part="IC4" gate="G$1" x="154.94" y="208.28"/>
 </instances>
 <busses>
 </busses>
