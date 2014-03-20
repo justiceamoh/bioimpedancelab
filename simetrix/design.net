@@ -1,0 +1,20 @@
+* Z:\Junior On My Mac\research\bioimpedancelab\simetrix\Howland Circuit 1.sxsch
+*#SIMETRIX
+X1 C1_P X1_inn Vdd 0 X1_inn LM6132B/NS pinnames: inp inn vsp vsn out
+V2 V2_P 0 5 Sine(1.48 990m 1k 0 0)
+X3 R2_P R5_P Vdd 0 R4_P LM6132B/NS pinnames: inp inn vsp vsn out
+V3 Vdd/2 0 2.5
+R1 R2_P R6_P 100k
+V4 Vdd 0 5
+R2 R2_P X1_inn 100k
+R3 R4_P R2_P 100k
+R4 R4_P R5_P 100k
+R5 R5_P 0 100k
+R6 R6_P 0 100k
+R7 C1_P Vdd/2 10k
+C1 C1_P V2_P 1u  
+.GRAPH V2_P axisType="auto" persistence=-1 curveLabel="Vin" xLog="auto" yLog="auto"  nowarn=true
+E$Probe2$TP_DIFFPRB 1 0 R2_P R6_P 1 
+.graph 1 axisType="axis" persistence=-1 curveLabel="Diff Probe" xLog="auto" yLog="lin" yUnit="V"  nowarn=true
+.TRAN 10m
+
