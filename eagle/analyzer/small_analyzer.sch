@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.5.0">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="yes"/>
@@ -5231,6 +5231,7 @@ Various common sizes : AA, AAA, 20mm coin cell and 12mm coin cell.&lt;br&gt;
 </library>
 </libraries>
 <attributes>
+<attribute name="DATABASE" value="~/research/analoglab/asthma/eagle/digikeydb.txt"/>
 </attributes>
 <variantdefs>
 </variantdefs>

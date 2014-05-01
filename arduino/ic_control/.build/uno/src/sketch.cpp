@@ -38,6 +38,8 @@ byte getFrequency(float freq, int n);
 #define TEMP_R2 0x93
 
 #define CTRL_REG 0x80
+#define CTRL_REG2 0x81
+
 #define STATUS_REG 0x8F
 
 
@@ -51,13 +53,19 @@ char state;
 void setup() {
 	Wire.begin();
 	Serial.begin(9600);
-	pinMode(button, INPUT); 
+	pinMode(button, INPUT); 	
+
+	//nop - clear ctrl-reg
+	writeData(CTRL_REG,0x0);
+
+	//reset ctrl register
+	writeData(CTRL_REG2,0x10);	
+
 	programReg();
 }
 
 
 void loop(){
- 
 
 
   	if(Serial.available()>0) {
@@ -72,19 +80,12 @@ void loop(){
   			case 'C':
   				runSweep();
   				delay(1000);
-  				break;		
+  				break;	  						
   		}
-  		// state=0;
+
   	}
 
-
-  // delay(5000);
-  // // measureTemperature();
-
-  // runSweep();
-  // while(1) {}; //Sit here and wait
 }
-
 
 
 void programReg(){
@@ -124,24 +125,22 @@ void runSweep() {
 	double impedance;
 	int i=0;
 
+	programReg();
 
-	// 1. Standby '10110000'
-	writeData(CTRL_REG, 0xB0);
+	// 1. Standby '10110000' Mask D8-10 of avoid tampering with gains
+	writeData(CTRL_REG,(readData(CTRL_REG) & 0x07) | 0xB0);
 
 	// 2. Initialize sweep
-	writeData(CTRL_REG, 0x10);
+	writeData(CTRL_REG,(readData(CTRL_REG) & 0x07) | 0x10);
 
 	// 3. Start sweep
-	writeData(CTRL_REG, 0x20);	
+	writeData(CTRL_REG,(readData(CTRL_REG) & 0x07) | 0x20);	
 
 
 	while((readData(STATUS_REG) & 0x07) < 4 ) {  // Check that status reg != 4, sweep not complete
 		delay(100); // delay between measurements
 
 		int flag = readData(STATUS_REG)& 2;
-
-		Serial.println("");
-		Serial.println(readData(STATUS_REG));
 
 
 		if (flag==2) {
@@ -150,20 +149,9 @@ void runSweep() {
 			byte R2 = readData(RE_DATA_R2);
 			re = (R1 << 8) | R2;
 
-
 			R1  = readData(IMG_DATA_R1);
 			R2  = readData(IMG_DATA_R2);
 			img = (R1 << 8) | R2;
-
-			// Serial.print(" Real: ");
-			// Serial.println(re);
-			// Serial.println(re,HEX);
-			// Serial.println("; ");
-
-			// Serial.print(" Imag: ");
-			// Serial.println(img);
-			// Serial.println(img,HEX);
-			// Serial.println(";");
 
 			freq = start_freq + i*incre_freq;
 			mag = sqrt(pow(double(re),2)+pow(double(img),2));
@@ -171,7 +159,7 @@ void runSweep() {
 			phase = atan(double(img)/double(re));
 			phase = (180.0/3.1415926)*phase;  //convert phase angle to degrees
 
-	   		gain = (1.0/2179.0)/20252.39;
+			gain = (1.0/200000)/9786.38;
 	    	impedance = 1/(gain*mag);
 
 			Serial.print("Frequency: ");
@@ -186,9 +174,9 @@ void runSweep() {
 			Serial.print(mag);
 			Serial.println(";");
 
-			// Serial.print(" Phase: ");
-			// Serial.print(phase);
-			// Serial.println(";");
+			Serial.print(" Phase: ");
+			Serial.print(phase);
+			Serial.println(";");
 
 			break;  //TODO: for single run, remove after debugging
 			
