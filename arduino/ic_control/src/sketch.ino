@@ -148,7 +148,7 @@ void runSweep() {
 			phase = atan(double(img)/double(re));
 			phase = (180.0/3.1415926)*phase;  //convert phase angle to degrees
 
-			gain = (1.0/200000)/9786.38;
+			gain = (1.0/197760)/9786.98;
 	    	impedance = 1/(gain*mag);
 
 			Serial.print("Frequency: ");
