@@ -56,25 +56,38 @@ void setup() {
 
 void loop(){
 
-
+	//Read state and enter FSM
   	if(Serial.available()>0) {
   		state = Serial.read();
+
+  		//FSM
   		switch(state) {
-  			case 'A':  //Program Registers State
-  				//programReg();
+  			case 'A':  //Program Registers
+  				programReg();
   				break;
-  			case 'B':  //Measure Temperature State
+
+  			case 'B':  //Measure Temperature
   				measureTemperature();
   				break;
+
   			case 'C':
   				runSweep();
   				delay(1000);
-  				break;	  						
+  				break;
+
+  		/////Programming Device Registers/////
+
+
   		}
 
+  		Serial.flush();
   	}
 
 }
+
+
+
+
 
 
 void programReg(){
@@ -99,7 +112,6 @@ void programReg(){
 	// Points in frequency sweep (100), max 511
 	writeData(NUM_INCRE_R1, (incre_num & 0x001F00)>>0x08 );
 	writeData(NUM_INCRE_R2, (incre_num & 0x0000FF));
-
 
 }
 
@@ -147,6 +159,10 @@ void runSweep() {
 
 			phase = atan(double(img)/double(re));
 			phase = (180.0/3.1415926)*phase;  //convert phase angle to degrees
+
+			// Phase Calibration
+			// sys_phase = 118;
+			// phase = phase - sys_phase;
 
 			gain = (1.0/197760)/9786.98;
 	    	impedance = 1/(gain*mag);
