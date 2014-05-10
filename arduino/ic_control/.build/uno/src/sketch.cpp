@@ -44,9 +44,9 @@ byte getFrequency(float freq, int n);
 
 
 const float MCLK = 16.776*pow(10,6); // AD5933 Internal Clock Speed 16.776 MHz
-const float start_freq = 30*pow(10,3); // Set start freq, < 100Khz
-const float incre_freq = 1*pow(10,3); // Set freq increment
-const int incre_num = 0; // Set number of increments; < 511
+const float start_freq = 10*pow(10,3); // Set start freq, < 100Khz
+const float incre_freq = 5*pow(10,3); // Set freq increment
+const int incre_num = 100; // Set number of increments; < 511
 
 char state; 
 
@@ -67,25 +67,38 @@ void setup() {
 
 void loop(){
 
-
+	//Read state and enter FSM
   	if(Serial.available()>0) {
   		state = Serial.read();
+
+  		//FSM
   		switch(state) {
-  			case 'A':  //Program Registers State
-  				//programReg();
+  			case 'A':  //Program Registers
+  				programReg();
   				break;
-  			case 'B':  //Measure Temperature State
+
+  			case 'B':  //Measure Temperature
   				measureTemperature();
   				break;
+
   			case 'C':
   				runSweep();
   				delay(1000);
-  				break;	  						
+  				break;
+
+  		/////Programming Device Registers/////
+
+
   		}
 
+  		Serial.flush();
   	}
 
 }
+
+
+
+
 
 
 void programReg(){
@@ -110,7 +123,6 @@ void programReg(){
 	// Points in frequency sweep (100), max 511
 	writeData(NUM_INCRE_R1, (incre_num & 0x001F00)>>0x08 );
 	writeData(NUM_INCRE_R2, (incre_num & 0x0000FF));
-
 
 }
 
@@ -159,7 +171,11 @@ void runSweep() {
 			phase = atan(double(img)/double(re));
 			phase = (180.0/3.1415926)*phase;  //convert phase angle to degrees
 
-			gain = (1.0/200000)/9786.38;
+			// Phase Calibration
+			// sys_phase = 118;
+			// phase = phase - sys_phase;
+
+			gain = (1.0/197760)/9786.98;
 	    	impedance = 1/(gain*mag);
 
 			Serial.print("Frequency: ");
@@ -172,17 +188,17 @@ void runSweep() {
 
 			Serial.print(" Magnitude: ");
 			Serial.print(mag);
-			Serial.println(";");
+			Serial.print(";");
 
 			Serial.print(" Phase: ");
 			Serial.print(phase);
 			Serial.println(";");
 
-			break;  //TODO: for single run, remove after debugging
+			// break;  //TODO: for single run, remove after debugging
 			
 			//Increment frequency
 			if((readData(STATUS_REG) & 0x07) < 4 ){
-				writeData(CTRL_REG,0x30);
+				writeData(CTRL_REG,(readData(CTRL_REG) & 0x07) | 0x30);
 				i++;
 			}
 
@@ -191,7 +207,8 @@ void runSweep() {
 
 
 	//Power down
-	writeData(CTRL_REG,0xA0);
+//	writeData(CTRL_REG,0xA0);
+	writeData(CTRL_REG,(readData(CTRL_REG) & 0x07) | 0xA0);
 }
 
 
